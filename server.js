@@ -23,7 +23,52 @@ app.get('/testimonials/:id', (req, res) => {
     const randomIndex = Math.floor(Math.random() * db.length);
     res.json(db[randomIndex]);
   } else {
-    res.json(db.find(o => o.id === req.params.id));
+    res.json(db.find(item => item.id === req.params.id));
+  }
+});
+
+app.post('/testimonials', (req, res) => {
+  const { author, text } = req.body;
+  
+  if(author && text) {
+    db.push({id: uuidv4(), author: author, text: text});
+
+    res.status(200).json({ message: 'OK' });
+  }
+  else {
+    res.status(400).json({ message: 'Something went wrong' });
+  }
+});
+
+app.put('/testimonials/:id', (req, res) => {
+  const { author, text } = req.body;
+  const id = req.params.id;
+  
+  if(id && author && text) {
+    const item = db.find(item => item.id === id);
+    item.author = author;
+    item.text = text;
+
+    res.status(200).json({ message: 'OK' });
+  }
+  else {
+    res.status(400).json({ message: 'Something went wrong' });
+  }
+});
+
+app.delete('/testimonials/:id', (req, res) => {
+  const id = req.params.id;
+  
+  if(id) {
+    const indexToRemove = db.findIndex(item => item.id === id);
+    if (indexToRemove !== -1) {
+      db.splice(indexToRemove, 1);
+    }
+
+    res.status(200).json({ message: 'OK' });
+  }
+  else {
+    res.status(400).json({ message: 'Something went wrong' });
   }
 });
 
