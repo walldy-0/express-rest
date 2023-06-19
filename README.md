@@ -1,1 +1,1 @@
-express-rest.walldy-0.repl.co
+http://express-rest.walldy-0.repl.co
