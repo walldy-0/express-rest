@@ -12,8 +12,8 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
 
   useEffect(() => {
     dispatch(loadSeatsRequest());
-    const socket = io(process.env.PORT || "http://localhost:8000/");
-    //const socket = io('ws://localhost:' + (process.env.PORT || '8000'), { transports: ["websocket"] });
+    
+    const socket = io('ws://localhost:' + (process.env.PORT || '3000'), { transports: ["websocket"] });
     socket.on('seatsUpdated', seats => {
       dispatch(loadSeats(seats));
     });
