@@ -4,15 +4,6 @@ const path = require('path');
 const socket = require('socket.io');
 
 const app = express();
-const server = app.listen(process.env.PORT || 8000, () => {
-  console.log('Server is running on port:' + process.env.PORT);
-});
-
-const io = socket(server);
-
-io.on('connection', (socket) => {
-  console.log('New connection, id: ' + socket.id);
-});
 
 app.use((req, res, next) => {
   req.io = io;
@@ -41,3 +32,12 @@ app.use((req, res) => {
   res.status(404).json({message: 'Not found...'});
 });
 
+const server = app.listen(process.env.PORT || 8000, () => {
+  console.log('Server is running on port:' + process.env.PORT);
+});
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log('New connection, id: ' + socket.id);
+});
