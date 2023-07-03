@@ -29,7 +29,15 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
   }
 
+  const countFreeSeats = () => {
+    const takenSeats = seats.filter(seat => seat.day === chosenDay).length;
+    const freeSeats = 50 - takenSeats;
+
+    return freeSeats;
+  }
+
   return (
+    <>
     <div>
       <h3>Pick a seat</h3>
       <small id="pickHelp" className="form-text text-muted ml-2"><Button color="secondary" /> – seat is already taken</small>
@@ -38,6 +46,10 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
       { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].pending) && <Progress animated color="primary" value={50} /> }
       { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].error) && <Alert color="warning">Couldn't load seats...</Alert> }
     </div>
+    <p>
+      Free seats: {countFreeSeats()}/{50}
+    </p>
+    </>
   )
 }
 
