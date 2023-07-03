@@ -20,6 +20,7 @@ router.route('/seats').post((req, res) => {
     if (!seats.some(item => (item.seat === seat && item.day === day))) {
       const newId = uuidv4();
       seats.push({ id: newId, day: day, seat: seat, client: client, email: email });
+      req.io.emit('seatsUpdated', seats);
       sendOkStatus(res);
     } else {
       res.status(400).json({ message: "The slot is already taken..." });
