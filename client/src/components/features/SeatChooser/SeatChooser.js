@@ -13,7 +13,7 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   useEffect(() => {
     dispatch(loadSeatsRequest());
     
-    const socket = io('ws://localhost' + (process.env.NODE_ENV === 'production' ? '' : ':8000'), { transports: ["websocket"] });
+    const socket = io('ws://localhost:8000', { transports: ["websocket"] });
     socket.on('seatsUpdated', seats => {
       dispatch(loadSeats(seats));
     });
