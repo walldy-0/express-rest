@@ -33,7 +33,9 @@ app.use((req, res) => {
   res.status(404).json({message: 'Not found...'});
 });
 
-const connString = 'mongodb://localhost:27017/NewWaveDB';
+
+//const connString = 'mongodb://localhost:27017/NewWaveDB';
+const connString = 'mongodb+srv://walldy:FgBLocxLNFdZrHjP@cluster0.i69xevf.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
 mongoose.connect(connString, { useNewUrlParser: true });
 const db = mongoose.connection;
 
