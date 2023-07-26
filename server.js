@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use((req, res, next) => {
 });
 
 const testimonialsRoutes = require('./api/testimonials.routes');
-const contertsRoutes = require('./api/concerts.routes');
+const concertsRoutes = require('./api/concerts.routes');
 const seatsRoutes = require('./api/seats.routes');
 
 // Serve static files from the React app
@@ -21,7 +22,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/api', testimonialsRoutes);
-app.use('/api', contertsRoutes);
+app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
 
 app.get('*', (req, res) => {
@@ -31,6 +32,16 @@ app.get('*', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({message: 'Not found...'});
 });
+
+const connString = 'mongodb://localhost:27017/NewWaveDB';
+mongoose.connect(connString, { useNewUrlParser: true });
+const db = mongoose.connection;
+
+db.once('open', () => {
+  console.log('Connected to the database');
+});
+db.on('error', err => console.log('Error ' + err));
+
 
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
